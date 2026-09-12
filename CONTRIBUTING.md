@@ -67,7 +67,7 @@ Table or list of all fields and data types:
 ```
 
 ### 4. Update Root Catalog
-Add an entry for your new dataset in the root [`README.md`](README.md) under **Available Datasets**.
+Add an entry for your new dataset in the root [`README.md`](README.md) under **Dataset Summary**.
 
 ### 5. Validate Locally
 Before committing, run the test suite locally to ensure your files conform to all standards:

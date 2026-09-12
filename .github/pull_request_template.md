@@ -8,7 +8,7 @@ Please ensure all items below are checked prior to requesting review:
 - [ ] **No PII:** Confirmed that the data contains no Personally Identifiable Information (PII) or private data.
 - [ ] **Directory Placement:** Located in the proper domain folder (e.g. `datasets/<domain>/<dataset-name>/`).
 - [ ] **Documentation:** Includes a complete `README.md` with **Source**, **License**, **Timeframe**, and **Schema** table.
-- [ ] **Repository Catalog:** Updated the root [`README.md`](README.md) Available Datasets table.
+- [ ] **Repository Catalog:** Updated the root [`README.md`](README.md) Dataset Summary table.
 - [ ] **Local Validation:** Ran `python scripts/validate_datasets.py` and all checks passed cleanly.
 - [ ] **Cleaning Scripts:** (Optional but recommended) Included scraping or processing scripts in `scripts/`.
 
