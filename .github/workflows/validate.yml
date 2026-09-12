@@ -20,13 +20,37 @@ jobs:
     - name: Validate JSONL files
       run: |
         echo "Validating all .jsonl files in datasets/"
-        # Find all jsonl files and check if they can be parsed as JSON lines
         find datasets/ -name "*.jsonl" | while read -r file; do
           echo "Checking $file"
-          python -c "import json, sys; [json.loads(line) for line in open(sys.argv[1])]" "$file"
+          python -c "import json, sys; [json.loads(line) for line in open(sys.argv[1], encoding='utf-8')]" "$file"
           if [ $? -ne 0 ]; then
             echo "Validation failed for $file"
             exit 1
           fi
         done
         echo "All JSONL files are valid!"
+
+    - name: Validate CSV files
+      run: |
+        echo "Validating all .csv files in datasets/"
+        find datasets/ -name "*.csv" | while read -r file; do
+          echo "Checking $file"
+          python -c "import csv, sys; list(csv.reader(open(sys.argv[1], encoding='utf-8')))" "$file"
+          if [ $? -ne 0 ]; then
+            echo "Validation failed for $file"
+            exit 1
+          fi
+        done
+        echo "All CSV files are valid!"
+
+    - name: Validate Dataset Metadata
+      run: |
+        echo "Ensuring all dataset subdirectories contain a README.md"
+        find datasets -mindepth 2 -maxdepth 2 -type d | while read -r dir; do
+          if [ ! -f "$dir/README.md" ]; then
+            echo "Missing README.md in $dir"
+            exit 1
+          fi
+          echo "Metadata verified for $dir"
+        done
+        echo "All datasets have valid README.md metadata!"
