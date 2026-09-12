@@ -1,0 +1,133 @@
+/* Open Data Uganda Portal Styles */
+
+/* Base Typography & Smooth Transitions */
+body {
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar for tables and code previews */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.4);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Domain Filter Buttons */
+.domain-filter {
+  border: 1px solid rgba(226, 232, 240, 1);
+  color: #64748b;
+  background-color: #ffffff;
+}
+
+.dark .domain-filter {
+  border-color: rgba(51, 65, 85, 1);
+  color: #94a3b8;
+  background-color: #0f172a;
+}
+
+.domain-filter:hover {
+  border-color: #f59e0b;
+  color: #d97706;
+}
+
+.dark .domain-filter:hover {
+  border-color: #f59e0b;
+  color: #fbbf24;
+}
+
+.domain-filter.active {
+  background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);
+  color: #ffffff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+}
+
+/* Tab Active Styles */
+.tab-btn {
+  transition: all 0.2s ease-in-out;
+}
+
+.tab-btn.active {
+  color: #d97706;
+  border-color: #d97706;
+}
+
+.dark .tab-btn.active {
+  color: #fbbf24;
+  border-color: #fbbf24;
+}
+
+/* Leaflet Map Styles */
+#mapContainer {
+  height: 520px;
+  width: 100%;
+  border-radius: 0.75rem;
+  z-index: 1;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0.75rem;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Dark Mode Leaflet Tile adjustment */
+.dark .leaflet-tile {
+  filter: brightness(0.85) contrast(1.15) invert(0.9) hue-rotate(200deg) saturate(0.6);
+}
+
+/* Table Enhancements */
+th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s;
+}
+
+th.sortable:hover {
+  background-color: rgba(241, 245, 249, 1);
+}
+
+.dark th.sortable:hover {
+  background-color: rgba(30, 41, 59, 1);
+}
+
+/* Card Hover Lift */
+.dataset-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dataset-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Age Pyramid Bar Animation */
+.pyramid-bar {
+  transition: width 0.4s ease-out;
+}

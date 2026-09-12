@@ -1,0 +1,105 @@
+market_id,market_name,district,region,latitude,longitude,country_iso3
+6416,Adjumani (refugee settlement),Adjumani,Adjumani,3.34,31.78,UGA
+6148,Arua,Arua Municipality,Arua,3.02,30.91,UGA
+11824,Aura (UBoS),Terego,Arua,3.05,31.02,UGA
+8718,Awindiri,Adjumani,Adjumani,3.37,31.78,UGA
+8574,Ayilo1,Adjumani,Adjumani,3.29,31.94,UGA
+8579,Ayilo2,Adjumani,Adjumani,3.26,31.95,UGA
+8472,Basecamp,Kibale,Kamwenge,0.33,30.67,UGA
+8719,Bel-Maling,Obongi,Moyo,3.47,31.61,UGA
+6404,Bidibidi (refugee settlement),Aringa,Yumbe,3.36,31.35,UGA
+8717,Bidibidi Reception (Zone 1),Aringa,Yumbe,3.48,31.37,UGA
+8473,Bukere,Kyaka,Kyegegwa,0.38,31.1,UGA
+2665,Busia,Samia-bugwe,Busia,0.47,34.09,UGA
+8570,Bweyale,Kibanda,Kiryandongo,1.95,32.14,UGA
+8474,Byabakora,Kyaka,Kyegegwa,0.33,31.08,UGA
+6292,Fort Portal,Fort Portal Municipality,Kabarole,0.66,30.28,UGA
+11825,Fort Portal (UBoS),Burahya,Kabarole,0.67,30.32,UGA
+262,Gulu,Gulu Municipality,Gulu,2.77,32.31,UGA
+11826,Gulu (UBoS),Omoro,Gulu,2.69,32.3,UGA
+6151,Hoima,Bugahya,Hoima,1.43,31.35,UGA
+259,Iganga,Kigulu,Iganga,0.61,33.47,UGA
+6415,Imvepi (refugee settlement),Terego,Arua,3.23,31.28,UGA
+8723,Jerusalem Main,Lamwo,Lamwo,3.35,32.45,UGA
+260,Jinja,Jinja Municipality,Jinja,0.42,33.2,UGA
+11827,Jinja (UBoS),Jinja Municipality,Jinja,0.44,33.22,UGA
+2345,Kaabong,Dodoth,Kaabong,3.54,34.12,UGA
+2692,Kabale,Kabale Municipality,Kabale,-1.25,29.99,UGA
+8475,Kagoma,Buhaguzi,Hoima,1.15,30.75,UGA
+8476,Kajaho,Isingiro,Isingiro,-0.94,30.75,UGA
+11831,Kampala (UBoS),Central Kampala,Kampala,0.32,32.59,UGA
+8990,Kanawat Market,Jie,Kotido,2.99,34.09,UGA
+261,Kapchorwa,Kween,Kween,1.38,34.52,UGA
+7957,Karenga,Dodoth,Kaabong,3.57,33.7,UGA
+2346,Karita,Upe,Amudat,1.54,34.83,UGA
+6149,Kasese,Busongora,Kasese,0.17,30.07,UGA
+8471,Kasonga,Buhaguzi,Hoima,1.19,30.78,UGA
+8484,Katalyeba,Kibale,Kamwenge,0.34,30.66,UGA
+8569,Keri,Koboko,Koboko,3.51,30.94,UGA
+257,Kiboga,Kiboga,Kyankwanzi,0.92,31.77,UGA
+8578,Kigumba,Kibanda,Kiryandongo,1.81,32.01,UGA
+8575,Kiryandongo,Kibanda,Kiryandongo,1.88,32.06,UGA
+6409,Kiryandongo (refugee settlement),Kibanda,Kiryandongo,1.94,32.21,UGA
+8582,Kitgum,Chua,Kitgum,3.3,32.88,UGA
+8483,Kityaza,Bukanga,Isingiro,-0.81,30.97,UGA
+8567,Koboko,Koboko,Koboko,3.41,30.96,UGA
+8993,Kokoria Market,Jie,Kotido,3.1,33.93,UGA
+2344,Kotido,Jie,Kotido,3.0,34.11,UGA
+8581,Kubala,Terego,Arua,3.26,31.06,UGA
+6407,Kyaka II (refugee settlement),Kyaka,Kyegegwa,0.36,31.09,UGA
+6413,Kyangwali (refugee settlement),Buhaguzi,Hoima,1.16,30.75,UGA
+8477,Kyempango,Kibale,Kamwenge,0.29,30.68,UGA
+8572,Lifori,West Moyo,Moyo,3.58,31.59,UGA
+263,Lira,Lira Municipality,Lira,2.23,32.91,UGA
+6408,Lobule (refugee settlement),Koboko,Koboko,3.39,31.03,UGA
+8562,Lodenga,Aringa,Yumbe,3.39,31.39,UGA
+8573,Lodonga,Aringa,Yumbe,3.41,31.11,UGA
+8992,Lokitalaebu Market,Jie,Kotido,2.99,33.99,UGA
+8994,Lolachat Market,Kadani,Nakapiripirit,1.94,34.56,UGA
+8995,Lorengedwat Market,Pian,Nakapiripirit,2.36,34.58,UGA
+8577,Maaji,Adjumani,Adjumani,3.22,31.65,UGA
+2343,Makaratin,Labwor,Abim,2.71,33.64,UGA
+8482,Maratatu B,Buhaguzi,Hoima,1.16,30.8,UGA
+6770,Masaka,Masaka Municipality,Masaka,-0.35,31.74,UGA
+11828,Masaka (UBoS),Masaka Municipality,Masaka,-0.36,31.73,UGA
+2693,Masindi,Buruli M,Masindi,1.69,31.71,UGA
+2348,Mbale,Mbale Municipality,Mbale,1.07,34.18,UGA
+11829,Mbale (UBoS),Mbale Municipality,Mbale,1.08,34.19,UGA
+264,Mbarara,Mbarara Municipality,Mbarara,-0.61,30.65,UGA
+11830,Mbarara (UBoS),Mbarara Municipality,Mbarara,-0.58,30.7,UGA
+8560,Morobi,Obongi,Moyo,3.43,31.58,UGA
+6147,Moroto,Moroto Municipality,Moroto,2.53,34.65,UGA
+8722,Moyo Main,West Moyo,Moyo,3.65,31.72,UGA
+8478,Mubende,Buwekula,Mubende,0.55,31.39,UGA
+6769,Mukono,Mukono,Mukono,0.36,32.75,UGA
+7854,Nabilatuk,Pian,Nakapiripirit,2.05,34.57,UGA
+6412,Nakivale (refugee settlement),Bukanga,Isingiro,-0.78,30.96,UGA
+2347,Namalu,Kadani,Nakapiripirit,1.79,34.6,UGA
+7956,Napak,Bokora,Napak,2.22,34.26,UGA
+8996,Naturum Namboole,Kadani,Nakapiripirit,1.87,34.58,UGA
+8564,Ndirindiri,Obongi,Moyo,3.49,31.67,UGA
+8479,New Congo,Kashari,Mbarara,-0.52,30.74,UGA
+8580,Nyumanzi,Adjumani,Adjumani,3.46,31.95,UGA
+8565,Ocea,Madi-okollo,Arua,3.08,31.28,UGA
+8563,Ocodri,Terego,Arua,3.07,31.09,UGA
+8566,Ofua3,Terego,Arua,3.13,31.16,UGA
+8571,Ogili,Lamwo,Lamwo,3.41,32.5,UGA
+8561,Okubani,Aringa,Yumbe,3.23,31.42,UGA
+6411,Oruchinga (refugee settlement),Bukanga,Isingiro,-0.94,30.76,UGA
+258,Owino,Central Kampala,Kampala,0.32,32.57,UGA
+8568,Pagilinya,Adjumani,Adjumani,3.38,32.02,UGA
+6406,Palabek (refugee settlement),Lamwo,Lamwo,3.34,32.47,UGA
+6405,Palorinya (refugee settlement),Obongi,Moyo,3.47,31.63,UGA
+8720,Point J,Terego,Arua,3.27,31.28,UGA
+8721,Reception,Lamwo,Lamwo,3.36,32.41,UGA
+6414,Rhino Camp (refugee settlement),Terego,Arua,3.17,31.31,UGA
+8480,Rubondo,Bukanga,Isingiro,-0.73,31.04,UGA
+6410,Rwamwanja (refugee settlement),Kibale,Kamwenge,0.31,30.68,UGA
+2349,Soroti,Soroti Municipality,Soroti,1.71,33.62,UGA
+8481,Sweswe,Kyaka,Kyegegwa,0.37,31.11,UGA
+8576,Swinga,Aringa,Yumbe,3.52,31.34,UGA
+8991,Tokora Market,Kadani,Nakapiripirit,1.84,34.66,UGA
+6150,Tororo,Tororo Municipality,Tororo,0.69,34.18,UGA
+8997,Usake market,Dodoth,Kaabong,3.78,34.04,UGA
+6768,Wakiso,Busiro,Wakiso,0.4,32.48,UGA
+8724,Yumbe Main,Aringa,Yumbe,3.46,31.25,UGA

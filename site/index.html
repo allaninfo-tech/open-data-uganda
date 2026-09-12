@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Data Uganda 🇺🇬 — Free, Public Datasets</title>
+  <meta name="description" content="Explore, visualize, and download standardized Ugandan datasets across demographics, economics, education, geospatial, health, and local languages.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇺🇬</text></svg>">
+  
+  <!-- Google Fonts (Inter & Plus Jakarta Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            uganda: {
+              gold: '#F5A623',
+              red: '#E02424',
+              dark: '#111827',
+              lightgold: '#FEF3C7',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Leaflet Map CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+  <!-- Top Banner -->
+  <div class="bg-gradient-to-r from-amber-500 via-red-600 to-slate-900 text-white py-1.5 px-4 text-xs font-medium text-center flex items-center justify-center gap-2">
+    <span>🇺🇬</span>
+    <span><strong>Open Data Uganda:</strong> An independent, public-interest open data initiative. Free for research, journalism, and development.</span>
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="app.showCatalog()">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-amber-500/20">
+          🇺🇬
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">Open Data Uganda</span>
+          <span class="hidden sm:inline-block ml-2 px-2 py-0.5 text-[10px] font-semibold tracking-wide bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 rounded-full border border-amber-300 dark:border-amber-800">PUBLIC ARCHIVE</span>
+        </div>
+      </div>
+
+      <!-- Header Stats & Actions -->
+      <div class="flex items-center gap-3">
+        <button id="themeToggle" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-slate-100 dark:bg-slate-800 transition" title="Toggle Dark/Light Mode">
+          <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+        </button>
+
+        <a href="https://github.com/allaninfo-tech/open-data-uganda" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 transition shadow-sm">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span class="hidden md:inline">GitHub Repository</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Container -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- CATALOG VIEW (Default) -->
+    <div id="catalogView" class="space-y-8">
+      
+      <!-- Hero Section -->
+      <div class="text-center max-w-3xl mx-auto pt-4 pb-6 space-y-4">
+        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Uganda's Public Data, <span class="bg-gradient-to-r from-amber-500 to-red-600 bg-clip-text text-transparent">Unlocked & Visualized</span>
+        </h1>
+        <p class="text-slate-600 dark:text-slate-400 text-base sm:text-lg">
+          Explore population census data, economic trends, health metrics, food market locations, and local language dictionaries. Clean, reliable, and completely free.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="relative max-w-2xl mx-auto pt-2">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </div>
+          <input 
+            type="text" 
+            id="globalSearch" 
+            placeholder="Search datasets, districts, health indicators, dictionary..." 
+            class="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-none focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm sm:text-base text-slate-900 dark:text-white transition"
+          >
+        </div>
+
+        <!-- Quick Stats Pill Row -->
+        <div class="flex flex-wrap items-center justify-center gap-2 pt-2 text-xs text-slate-500 dark:text-slate-400 font-medium">
+          <span class="px-3 py-1 bg-white dark:bg-slate-900 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-1.5">
+            <i data-lucide="database" class="w-3.5 h-3.5 text-amber-500"></i> <strong class="text-slate-800 dark:text-slate-200">7</strong> Curated Datasets
+          </span>
+          <span class="px-3 py-1 bg-white dark:bg-slate-900 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-1.5">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-red-500"></i> <strong class="text-slate-800 dark:text-slate-200">135</strong> Districts
+          </span>
+          <span class="px-3 py-1 bg-white dark:bg-slate-900 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-1.5">
+            <i data-lucide="store" class="w-3.5 h-3.5 text-emerald-500"></i> <strong class="text-slate-800 dark:text-slate-200">104</strong> Markets
+          </span>
+          <span class="px-3 py-1 bg-white dark:bg-slate-900 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-1.5">
+            <i data-lucide="book-a" class="w-3.5 h-3.5 text-indigo-500"></i> <strong class="text-slate-800 dark:text-slate-200">10,670+</strong> Dictionary Words
+          </span>
+          <span class="px-3 py-1 bg-white dark:bg-slate-900 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-1.5">
+            <i data-lucide="history" class="w-3.5 h-3.5 text-blue-500"></i> <strong class="text-slate-800 dark:text-slate-200">65</strong> Years of History
+          </span>
+        </div>
+      </div>
+
+      <!-- Domain Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200 dark:border-slate-800 no-scrollbar">
+        <button class="domain-filter active px-4 py-2 text-xs font-semibold rounded-xl transition whitespace-nowrap" data-domain="all">All Domains (7)</button>
+        <button class="domain-filter px-4 py-2 text-xs font-semibold rounded-xl transition whitespace-nowrap" data-domain="Demographics">👥 Demographics (1)</button>
+        <button class="domain-filter px-4 py-2 text-xs font-semibold rounded-xl transition whitespace-nowrap" data-domain="Economics">📈 Economics (1)</button>
+        <button class="domain-filter px-4 py-2 text-xs font-semibold rounded-xl transition whitespace-nowrap" data-domain="Geospatial">📍 Geospatial (2)</button>
+        <button class="domain-filter px-4 py-2 text-xs font-semibold rounded-xl transition whitespace-nowrap" data-domain="Health">🩺 Health (1)</button>
+        <button class="domain-filter px-4 py-2 text-xs font-semibold rounded-xl transition whitespace-nowrap" data-domain="Education">🎓 Education (1)</button>
+        <button class="domain-filter px-4 py-2 text-xs font-semibold rounded-xl transition whitespace-nowrap" data-domain="Language">📖 Language (1)</button>
+      </div>
+
+      <!-- Dataset Grid -->
+      <div id="datasetGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dataset cards populated dynamically via JS -->
+      </div>
+    </div>
+
+    <!-- DATASET DETAIL / EXPLORER VIEW (Hidden by default) -->
+    <div id="explorerView" class="hidden space-y-6">
+      
+      <!-- Back Button & Dataset Title Header -->
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <button onclick="app.showCatalog()" class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline mb-2">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back to All Datasets
+          </button>
+          <div class="flex items-center gap-3">
+            <h2 id="currentDatasetTitle" class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white"></h2>
+            <span id="currentDatasetDomain" class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full"></span>
+          </div>
+          <p id="currentDatasetMeta" class="text-xs text-slate-500 dark:text-slate-400"></p>
+        </div>
+
+        <!-- Download Buttons -->
+        <div class="flex items-center gap-2">
+          <a id="btnDownloadCsv" href="#" download class="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white shadow-sm transition">
+            <i data-lucide="download" class="w-4 h-4"></i> Download CSV
+          </a>
+          <a id="btnDownloadJson" href="#" download class="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition">
+            <i data-lucide="file-code" class="w-4 h-4"></i> Download JSON
+          </a>
+        </div>
+      </div>
+
+      <!-- View Navigation Tabs -->
+      <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800">
+        <button id="tabViz" onclick="app.switchTab('viz')" class="tab-btn active pb-3 px-2 text-sm font-semibold flex items-center gap-2 border-b-2 border-amber-500 text-amber-600 dark:text-amber-400">
+          <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+          <span>Interactive Visualization</span>
+        </button>
+        <button id="tabTable" onclick="app.switchTab('table')" class="tab-btn pb-3 px-2 text-sm font-semibold flex items-center gap-2 border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-300">
+          <i data-lucide="table" class="w-4 h-4"></i>
+          <span>Data Table</span>
+        </button>
+      </div>
+
+      <!-- TAB CONTENT 1: VISUALIZER (Charts / Map / Dict) -->
+      <div id="vizContainer" class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm min-h-[420px]">
+        <!-- Rendered dynamically depending on dataset type -->
+      </div>
+
+      <!-- TAB CONTENT 2: SPREADSHEET DATA TABLE -->
+      <div id="tableContainer" class="hidden bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        
+        <!-- Table Controls (Search, Row Count, Copy) -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pb-2">
+          <div class="relative flex-1 max-w-md">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="search" class="w-4 h-4"></i>
+            </div>
+            <input 
+              type="text" 
+              id="tableSearch" 
+              placeholder="Filter within this table..." 
+              class="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+            >
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 text-xs text-slate-500">
+              <span>Show:</span>
+              <select id="pageSize" class="px-2 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold focus:outline-none">
+                <option value="10">10</option>
+                <option value="25" selected>25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+
+            <button onclick="app.copyTableData()" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Table
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Responsive Wrapper -->
+        <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 max-h-[600px] overflow-y-auto">
+          <table class="w-full text-left text-xs whitespace-nowrap">
+            <thead id="tableHead" class="bg-slate-100 dark:bg-slate-800/80 sticky top-0 z-10 text-slate-700 dark:text-slate-200 font-bold"></thead>
+            <tbody id="tableBody" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono text-[11px]"></tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 text-xs text-slate-500">
+          <div id="tableInfo">Showing 0 of 0 entries</div>
+          <div class="flex items-center gap-1.5">
+            <button id="btnPrevPage" onclick="app.prevPage()" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold disabled:opacity-40">Previous</button>
+            <span id="pageNumberDisplay" class="px-3 py-1.5 font-bold text-slate-800 dark:text-slate-200">Page 1</span>
+            <button id="btnNextPage" onclick="app.nextPage()" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold disabled:opacity-40">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 text-xs font-semibold">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
+    <span id="toastMessage">Action completed</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-8 text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span>🇺🇬 Open Data Uganda</span>
+        <span>•</span>
+        <span>Licensed under <a href="LICENSE" target="_blank" class="underline hover:text-amber-500">CC-BY 4.0</a></span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/allaninfo-tech/open-data-uganda" target="_blank" class="hover:text-slate-900 dark:hover:text-white transition">GitHub</a>
+        <a href="https://github.com/allaninfo-tech/open-data-uganda/blob/main/CONTRIBUTING.md" target="_blank" class="hover:text-slate-900 dark:hover:text-white transition">Contribute</a>
+        <a href="https://github.com/allaninfo-tech/open-data-uganda/blob/main/SECURITY.md" target="_blank" class="hover:text-slate-900 dark:hover:text-white transition">Privacy & Security</a>
+        <a href="https://github.com/allaninfo-tech/open-data-uganda/blob/main/CITATION.cff" target="_blank" class="hover:text-slate-900 dark:hover:text-white transition">Cite Data</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
