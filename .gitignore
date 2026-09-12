@@ -58,3 +58,4 @@ Thumbs.db
 scratch/
 tmp/
 *.tmp
+.wrangler/
