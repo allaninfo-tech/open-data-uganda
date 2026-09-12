@@ -58,4 +58,7 @@ Thumbs.db
 scratch/
 tmp/
 *.tmp
+# Node / Frontend
+node_modules/
+web/dist/
 .wrangler/
