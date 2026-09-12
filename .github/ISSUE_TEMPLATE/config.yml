@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Community Discussions & Questions
+    url: https://github.com/allaninfo-tech/open-data-uganda/discussions
+    about: Ask questions, share analyses, or discuss data projects with other Ugandan data enthusiasts.
+  - name: Security & Data Privacy Reports
+    url: https://github.com/allaninfo-tech/open-data-uganda/blob/main/SECURITY.md
+    about: Privately report potential personal data leaks or security issues.

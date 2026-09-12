@@ -1,0 +1,68 @@
+name: Dataset Request
+description: Suggest or propose a new Ugandan dataset to be added to Open Data Uganda.
+title: "[Dataset Request]: "
+labels: ["dataset-request", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing a new dataset to Open Data Uganda! Please fill out the form below to help us evaluate the dataset.
+  - type: input
+    id: dataset_name
+    attributes:
+      label: Dataset Name
+      description: What is the title of the dataset?
+      placeholder: e.g., Uganda National Grid Substation Coordinates
+    validations:
+      required: true
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Domain Category
+      description: Which domain best fits this dataset?
+      options:
+        - Agriculture
+        - Demographics
+        - Economics
+        - Education
+        - Energy
+        - Environment & Climate
+        - Geospatial
+        - Health
+        - Language & NLP
+        - Transport
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: source_url
+    attributes:
+      label: Source / Origin
+      description: Where can the raw data be found? (URL or publisher name)
+      placeholder: e.g., https://www.ubos.org/ or Ministry of Health
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: License / Terms of Use
+      description: What is the license or usage terms of this data?
+      placeholder: e.g., CC-BY 4.0, Public Domain, ODC-ODbL, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Dataset Description & Utility
+      description: Briefly describe what this data contains and why it is valuable to the community.
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Quality & Privacy Confirmation
+      options:
+        - label: I confirm this dataset does NOT contain Personally Identifiable Information (PII).
+          required: true
+        - label: I confirm this dataset is from an open, legal, and public source.
+          required: true

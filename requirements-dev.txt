@@ -1,0 +1,5 @@
+# Development & data validation dependencies
+pyyaml>=6.0
+pandas>=2.0.0
+pytest>=7.0.0
+ruff>=0.1.0

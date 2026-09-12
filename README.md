@@ -1,40 +1,138 @@
-# Open Data Uganda
+# Open Data Uganda 🇺🇬
 
-Welcome to the **Open Data Uganda** repository! This project serves as a central, reliable, and easily accessible hub for Ugandan datasets.
+[![Validate Datasets](https://github.com/allaninfo-tech/open-data-uganda/actions/workflows/validate.yml/badge.svg)](https://github.com/allaninfo-tech/open-data-uganda/actions/workflows/validate.yml)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-blue.svg)](LICENSE)
+[![Datasets](https://img.shields.io/badge/Datasets-7_available-green.svg)](#available-datasets)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor_Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
-## Structure
+Welcome to **Open Data Uganda**! This project serves as a central, reliable, and standardized open-access hub for Ugandan datasets. Our mission is to democratize access to public data across demographics, geospatial boundaries, economics, public health, education, and indigenous languages.
 
-The repository is organized by domain to make finding data easy:
-- `datasets/agriculture/`: Crop yields, land usage, farming statistics.
-- `datasets/demographics/`: Census data, population projections, age and sex distributions.
-- `datasets/economics/`: Inflation rates, GDP data, market prices, trade indicators.
-- `datasets/education/`: School enrollment, literacy rates, pupil-teacher ratios.
-- `datasets/geospatial/`: Administrative boundaries, districts, markets, points of interest.
-- `datasets/health/`: Life expectancy, infant mortality, disease prevalence, health facilities.
-- `datasets/language/`: Local language dictionaries and linguistic datasets.
+All datasets are curated from verified government, multilateral, and research organizations (UBOS, UN OCHA, WFP, World Bank, WHO, UNESCO), cleaned, and distributed in machine-readable, open formats (`.csv` and `.jsonl`).
+
+---
+
+## Quickstart: Loading Data
+
+### Python (Pandas)
+Load any dataset directly from GitHub raw URL into a DataFrame:
+
+```python
+import pandas as pd
+
+# Load Uganda District Population Data
+url = "https://raw.githubusercontent.com/allaninfo-tech/open-data-uganda/main/datasets/demographics/uganda-district-population/data.csv"
+df = pd.read_csv(url)
+
+print(df[["district", "region", "total_population"]].head())
+```
+
+### Python (JSONL)
+```python
+import json
+import urllib.request
+
+url = "https://raw.githubusercontent.com/allaninfo-tech/open-data-uganda/main/datasets/economics/uganda-macroeconomic-indicators/data.jsonl"
+req = urllib.request.urlopen(url)
+records = [json.loads(line) for line in req]
+
+print(f"Loaded {len(records)} observation years.")
+```
+
+### R
+```R
+# Load Uganda Administrative Districts
+districts <- read.csv("https://raw.githubusercontent.com/allaninfo-tech/open-data-uganda/main/datasets/geospatial/uganda-districts/data.csv")
+head(districts)
+```
+
+### cURL / Bash
+```bash
+# Fetch latest food markets and filter with jq
+curl -s https://raw.githubusercontent.com/allaninfo-tech/open-data-uganda/main/datasets/geospatial/uganda-markets/data.jsonl | jq '.market_name, .district'
+```
+
+---
+
+## Repository Structure
+
+The repository is organized by domain to make finding data intuitive:
+
+```text
+open-data-uganda/
+├── datasets/
+│   ├── demographics/     # Census data, population projections, age/sex cohorts
+│   ├── economics/        # Inflation, GDP, per capita income, market prices
+│   ├── education/        # Enrollment rates, literacy, educational attainment
+│   ├── geospatial/       # Administrative boundaries, districts, markets, points of interest
+│   ├── health/           # Life expectancy, infant mortality, health indicators
+│   └── language/         # Local language dictionaries, parallel corpora, lexicons
+├── scripts/              # Automated build, validation, and API fetch utilities
+├── .github/              # Issue forms, PR templates, and CI automation
+├── CONTRIBUTING.md       # Contribution guidelines and submission checklist
+├── CODE_OF_CONDUCT.md    # Contributor Covenant v2.1
+├── SECURITY.md           # Security and data privacy policy
+├── CITATION.cff          # Citation metadata for academic and research citation
+└── LICENSE               # Creative Commons Attribution 4.0 International
+```
+
+---
 
 ## Available Datasets
 
-| Domain | Dataset | Description | Format |
-|--------|---------|-------------|--------|
-| Demographics | [Uganda District Population](datasets/demographics/uganda-district-population/) | UBOS 135-district population projections disaggregated by gender and 5-year age cohorts. | CSV, JSONL |
-| Economics | [Uganda Macroeconomic Indicators](datasets/economics/uganda-macroeconomic-indicators/) | Historical time series (1960–present) of GDP, annual growth, GDP per capita, inflation, and population. | CSV, JSONL |
-| Education | [Uganda Education Indicators](datasets/education/uganda-education-indicators/) | UNESCO & World Bank historical gross primary school enrollment rates. | CSV, JSONL |
-| Geospatial | [Uganda Administrative Districts](datasets/geospatial/uganda-districts/) | Official UBOS/UN OCHA 135 administrative districts with P-codes and parent regions. | CSV, JSONL |
-| Geospatial | [Uganda Food & Commodity Markets](datasets/geospatial/uganda-markets/) | WFP registry of 104 major food and commodity markets with GPS coordinates. | CSV, JSONL |
-| Health | [Uganda Key Health Indicators](datasets/health/uganda-key-health-indicators/) | WHO & World Bank annual life expectancy at birth and infant mortality rates (1960–present). | CSV, JSONL |
-| Language | [Runyankore-Rukiga Dictionary](datasets/language/runyankore-rukiga-dictionary/) | Comprehensive Runyankore-Rukiga dictionary dataset extracted from lexical references. | JSONL |
+| Domain | Dataset | Records | Formats | Source | Description |
+|---|---|---|---|---|---|
+| **Demographics** | [Uganda District Population](datasets/demographics/uganda-district-population/) | 135 districts | `CSV`, `JSONL` | UBOS / UNFPA | District-level population disaggregated by gender and 16 five-year age cohorts. |
+| **Economics** | [Uganda Macroeconomic Indicators](datasets/economics/uganda-macroeconomic-indicators/) | 50 years | `CSV`, `JSONL` | World Bank | Annual time series (1960–present) of GDP, annual growth, GDP per capita, and inflation. |
+| **Education** | [Uganda Education Indicators](datasets/education/uganda-education-indicators/) | 47 years | `CSV`, `JSONL` | UNESCO / World Bank | Historical primary school gross enrollment rates (GER %) covering pre- and post-UPE era. |
+| **Geospatial** | [Uganda Administrative Districts](datasets/geospatial/uganda-districts/) | 135 districts | `CSV`, `JSONL` | UBOS / UN OCHA | Official administrative directory with P-codes, parent regions, and country codes. |
+| **Geospatial** | [Uganda Food & Commodity Markets](datasets/geospatial/uganda-markets/) | 104 markets | `CSV`, `JSONL` | WFP | Directory of agricultural and commodity markets with GPS coordinates. |
+| **Health** | [Uganda Key Health Indicators](datasets/health/uganda-key-health-indicators/) | 65 years | `CSV`, `JSONL` | WHO / World Bank | Historical life expectancy at birth and infant mortality rates (1960–2024). |
+| **Language** | [Runyankore-Rukiga Dictionary](datasets/language/runyankore-rukiga-dictionary/) | 10,671 words | `JSONL` | Lexical Reference | Comprehensive Runyankore-Rukiga dictionary with definitions, parts of speech, and examples. |
 
-## Scripts & Tools
+---
 
-Reproducible automation utilities are located in `scripts/`:
-- `scripts/fetch_worldbank_indicators.py`: CLI tool to fetch and export any World Bank indicator for Uganda into CSV or JSONL.
-- `scripts/generate_datasets.py`: Pipeline used to build, clean, and standardize datasets across the repository.
+## Developer & Automation Scripts
+
+Reproducible automation scripts are located in [`scripts/`](scripts/):
+- **[`scripts/validate_datasets.py`](scripts/validate_datasets.py):** Automated test suite that validates JSONL parseability, CSV integrity, UTF-8 encoding, and `README.md` metadata completeness across all datasets.
+- **[`scripts/generate_datasets.py`](scripts/generate_datasets.py):** Standardized build pipeline used to compile raw source data into clean CSV and JSONL datasets.
+- **[`scripts/fetch_worldbank_indicators.py`](scripts/fetch_worldbank_indicators.py):** CLI tool to query the World Bank API for any Ugandan indicator and export directly to CSV or JSONL.
+
+### Running Validation Locally
+```bash
+python scripts/validate_datasets.py
+```
+
+---
 
 ## How to Contribute
 
-We welcome contributions from the community! If you have a dataset you'd like to add or an update to an existing one, please check out our [Contribution Guidelines](CONTRIBUTING.md).
+We welcome contributions from everyone! Whether you want to add a new dataset, correct an error, or improve documentation:
+1. Review the [Contribution Guidelines](CONTRIBUTING.md).
+2. Check the [Code of Conduct](CODE_OF_CONDUCT.md).
+3. If requesting a dataset, please use the [Dataset Request Template](https://github.com/allaninfo-tech/open-data-uganda/issues/new?template=dataset_request.yml).
+4. Run `python scripts/validate_datasets.py` before submitting a Pull Request.
+
+---
+
+## Citing Open Data Uganda
+
+If you use datasets or tools from this repository in your academic research, data journalism, or publications, please cite it using the metadata in [`CITATION.cff`](CITATION.cff):
+
+```bibtex
+@misc{opendatauganda2026,
+  author = {Open Data Uganda Contributors},
+  title = {Open Data Uganda: A Central Hub for Ugandan Public Datasets},
+  year = {2026},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/allaninfo-tech/open-data-uganda}}
+}
+```
+
+---
 
 ## Licensing
 
-Unless otherwise specified in a specific dataset's directory, the data in this repository is licensed under the [Creative Commons Attribution 4.0 International License (CC-BY 4.0)](LICENSE).
+Unless otherwise specified in a specific dataset's directory, all datasets and content in this repository are licensed under the [Creative Commons Attribution 4.0 International License (CC-BY 4.0)](LICENSE).

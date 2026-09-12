@@ -5,6 +5,9 @@ This dataset contains words, parts of speech, and definitions for the Runyankore
 ## Source
 Extracted from a series of PDF dictionary pages (`runy2.pdf` through `runy107.pdf`).
 
+## License
+Creative Commons Attribution 4.0 International ([CC-BY 4.0](../../../LICENSE)).
+
 ## Format
 The data is provided in `JSONL` (JSON Lines) format, where each line is a valid JSON object.
 

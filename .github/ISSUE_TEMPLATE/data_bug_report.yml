@@ -1,0 +1,36 @@
+name: Data Issue / Bug Report
+description: Report incorrect numbers, formatting errors, or broken records in an existing dataset.
+title: "[Data Bug]: "
+labels: ["bug", "data-integrity"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please use this form to report data inaccuracies, formatting problems, or encoding issues in any of the datasets in this repository.
+        *Note: If you believe a dataset contains private personal information (PII), please refer to our [Security & Data Privacy Policy](SECURITY.md) immediately instead of posting publicly.*
+  - type: input
+    id: dataset_path
+    attributes:
+      label: Dataset Path / Name
+      description: Which dataset is affected?
+      placeholder: e.g., datasets/economics/uganda-macroeconomic-indicators/
+    validations:
+      required: true
+  - type: textarea
+    id: problem_description
+    attributes:
+      label: Description of the Error
+      description: Explain what is wrong with the data or formatting.
+      placeholder: e.g., Row 42 has a malformed timestamp, or GDP figure for year 2018 is off by a factor of 10.
+    validations:
+      required: true
+  - type: input
+    id: expected_correction
+    attributes:
+      label: Expected / Corrected Value (if known)
+      description: If you know the correct value and official source citation, please provide it.
+  - type: textarea
+    id: source_citation
+    attributes:
+      label: Source Citation
+      description: Link or reference supporting the correction.
