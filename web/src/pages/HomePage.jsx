@@ -17,6 +17,11 @@ import {
   Code2,
   FileSpreadsheet,
   CheckCircle2,
+  Zap,
+  Smartphone,
+  Trees,
+  Leaf,
+  Wheat,
   ExternalLink
 } from 'lucide-react'
 
@@ -40,6 +45,51 @@ const SECTORS = [
     count: '1 Dataset · 50 Years',
   },
   {
+    id: 'Agriculture',
+    title: 'Staple Food Prices',
+    description: 'WFP commodity prices (Maize, Beans, Rice, Sugar, Cassava) across key markets.',
+    icon: Wheat,
+    color: '#16a34a',
+    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    count: '1 Dataset · 2,431 Records',
+  },
+  {
+    id: 'Infrastructure',
+    title: 'Energy & Electrification',
+    description: 'National, urban, and rural electricity access rates plus renewable generation shares.',
+    icon: Zap,
+    color: '#d97706',
+    badge: 'bg-amber-50 text-amber-700 border-amber-200',
+    count: '1 Dataset · 34 Years',
+  },
+  {
+    id: 'Tourism',
+    title: 'National Parks & Wildlife',
+    description: 'Registry of all 10 National Parks, UNESCO sites, area sizes, and iconic wildlife.',
+    icon: Trees,
+    color: '#059669',
+    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    count: '1 Dataset · 10 Parks',
+  },
+  {
+    id: 'Technology',
+    title: 'Digital & Telecommunications',
+    description: 'Mobile phone adoption and internet penetration trends across Uganda since 1995.',
+    icon: Smartphone,
+    color: '#0891b2',
+    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200',
+    count: '1 Dataset · 30 Years',
+  },
+  {
+    id: 'Environment',
+    title: 'Forest & Land Cover',
+    description: '34-year historical trajectory of forest canopy area and agricultural land utilization.',
+    icon: Leaf,
+    color: '#65a30d',
+    badge: 'bg-lime-50 text-lime-700 border-lime-200',
+    count: '1 Dataset · 34 Years',
+  },
+  {
     id: 'Geospatial',
     title: 'Geospatial & Markets',
     description: 'Administrative district boundary P-codes and 104 WFP food market GPS locations.',
@@ -56,15 +106,6 @@ const SECTORS = [
     color: '#e11d48',
     badge: 'bg-rose-50 text-rose-700 border-rose-200',
     count: '1 Dataset · 65 Years',
-  },
-  {
-    id: 'Education',
-    title: 'Education Indicators',
-    description: 'Historical primary school gross enrollment trends and the 1997 UPE policy impact.',
-    icon: GraduationCap,
-    color: '#7c3aed',
-    badge: 'bg-purple-50 text-purple-700 border-purple-200',
-    count: '1 Dataset · 47 Years',
   },
   {
     id: 'Language',
@@ -169,7 +210,7 @@ export default function HomePage() {
                   to="/datasets"
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold shadow-sm transition"
                 >
-                  <span>Browse All Datasets (7)</span>
+                  <span>Browse All Datasets (12)</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
@@ -361,9 +402,9 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[
               {
-                value: '7',
+                value: '12',
                 label: 'Curated Datasets',
-                sub: '6 Domains of Public Records',
+                sub: '10 Domains of Public Records',
                 icon: Database,
                 color: 'text-amber-600',
               },

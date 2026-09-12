@@ -49,7 +49,20 @@
     "csv_file": "data/uganda-markets.csv",
     "json_file": "data/uganda-markets.json",
     "type": "map_points",
-    "icon": "shopping-bag"
+    "icon": "store"
+  },
+  {
+    "id": "uganda-staple-food-prices",
+    "title": "Uganda Staple Food Commodity Prices",
+    "domain": "Agriculture",
+    "source": "UN World Food Programme (WFP) / HDX",
+    "license": "CC BY-IGO 3.0",
+    "timeframe": "2015–2024",
+    "description": "Market-level retail and wholesale food price records tracking staple commodities (Maize, Beans, Rice, Cassava flour, Sugar) in UGX and USD across key trading hubs (Owino Kampala, Busia, Gulu, Mbarara, Arua, Jinja).",
+    "csv_file": "data/uganda-staple-food-prices.csv",
+    "json_file": "data/uganda-staple-food-prices.json",
+    "type": "table",
+    "icon": "wheat"
   },
   {
     "id": "uganda-key-health-indicators",
@@ -76,6 +89,58 @@
     "json_file": "data/uganda-education-indicators.json",
     "type": "timeseries",
     "icon": "graduation-cap"
+  },
+  {
+    "id": "uganda-energy-and-electricity",
+    "title": "Uganda Energy & Electricity Access Indicators",
+    "domain": "Infrastructure",
+    "source": "World Bank Open Data / SE4ALL",
+    "license": "CC-BY 4.0",
+    "timeframe": "1991–2024",
+    "description": "Historical annual trajectory of electricity electrification rates across Uganda, disaggregated by national total, urban centers, and rural communities, alongside renewable energy shares.",
+    "csv_file": "data/uganda-energy-and-electricity.csv",
+    "json_file": "data/uganda-energy-and-electricity.json",
+    "type": "timeseries",
+    "icon": "zap"
+  },
+  {
+    "id": "uganda-digital-and-telecom",
+    "title": "Uganda Digital & Telecommunications Indicators",
+    "domain": "Technology",
+    "source": "World Bank Open Data / ITU",
+    "license": "CC-BY 4.0",
+    "timeframe": "1995–2024",
+    "description": "30-year annual time series tracking mobile cellular phone subscriptions per 100 people, internet penetration (% of population), and fixed broadband subscriptions.",
+    "csv_file": "data/uganda-digital-and-telecom.csv",
+    "json_file": "data/uganda-digital-and-telecom.json",
+    "type": "timeseries",
+    "icon": "smartphone"
+  },
+  {
+    "id": "uganda-national-parks",
+    "title": "Uganda National Parks & Wildlife Reserves",
+    "domain": "Tourism",
+    "source": "Uganda Wildlife Authority (UWA) / Ministry of Tourism",
+    "license": "CC-BY 4.0",
+    "timeframe": "Comprehensive",
+    "description": "Official geospatial registry of all 10 National Parks in Uganda, detailing established years, area size in sq km, UNESCO World Heritage and Biosphere status, geographic coordinates, and key iconic wildlife species.",
+    "csv_file": "data/uganda-national-parks.csv",
+    "json_file": "data/uganda-national-parks.json",
+    "type": "map_points",
+    "icon": "trees"
+  },
+  {
+    "id": "uganda-forest-and-land-cover",
+    "title": "Uganda Forest & Land Cover Indicators",
+    "domain": "Environment",
+    "source": "World Bank Open Data / FAO",
+    "license": "CC-BY 4.0",
+    "timeframe": "1990–2023",
+    "description": "Historical time series tracking changes in forest canopy cover (% of land area) and agricultural land utilization in Uganda over three decades.",
+    "csv_file": "data/uganda-forest-and-land-cover.csv",
+    "json_file": "data/uganda-forest-and-land-cover.json",
+    "type": "timeseries",
+    "icon": "leaf"
   },
   {
     "id": "runyankore-rukiga-dictionary",

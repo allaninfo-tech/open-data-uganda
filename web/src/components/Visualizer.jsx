@@ -16,6 +16,11 @@ export default function Visualizer({ dataset, data }) {
     case 'uganda-markets':                  return <MarketsMapViz data={data} />
     case 'uganda-districts':               return <DistrictsViz data={data} />
     case 'runyankore-rukiga-dictionary':   return <DictionaryViz data={data} />
+    case 'uganda-national-parks':           return <NationalParksViz data={data} />
+    case 'uganda-energy-and-electricity':   return <EnergyViz data={data} />
+    case 'uganda-digital-and-telecom':      return <DigitalTelecomViz data={data} />
+    case 'uganda-forest-and-land-cover':    return <EnvironmentViz data={data} />
+    case 'uganda-staple-food-prices':       return <FoodPricesViz data={data} />
     default: return <p className="text-slate-400 text-center py-12">No visualizer for this dataset.</p>
   }
 }
@@ -555,5 +560,308 @@ function DictionaryViz({ data }) {
         ))}
       </div>
     </div>
+  )
+}
+
+/* ── 8. National Parks Map & Directory ────────────────── */
+function NationalParksViz({ data }) {
+  const mapRef = useRef(null)
+  const mapInstance = useRef(null)
+  const totalArea = data.reduce((s, p) => s + (p.area_sq_km || 0), 0)
+
+  useEffect(() => {
+    if (!mapRef.current) return
+    if (!mapInstance.current) {
+      const map = L.map(mapRef.current).setView([1.3733, 32.2903], 7)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18,
+      }).addTo(map)
+      mapInstance.current = map
+
+      data.forEach(park => {
+        if (!park.latitude || !park.longitude) return
+        const isWorldHeritage = park.unesco_status?.includes('World Heritage')
+        const marker = L.circleMarker([park.latitude, park.longitude], {
+          radius: isWorldHeritage ? 10 : 8,
+          fillColor: isWorldHeritage ? '#e11d48' : '#059669',
+          color: '#ffffff',
+          weight: 2,
+          fillOpacity: 0.9,
+        })
+        marker.bindPopup(`
+          <div style="font-family: 'Google Sans', sans-serif; font-size: 12px; line-height: 1.4; padding: 4px; max-width: 240px;">
+            <div style="font-weight: 700; font-size: 13px; color: #0f172a; margin-bottom: 2px;">🌲 ${park.park_name}</div>
+            <div style="color: #059669; font-weight: 600; font-size: 11px;">Est. ${park.established_year} · ${park.area_sq_km?.toLocaleString()} km²</div>
+            <div style="color: #475569; font-size: 11px; margin-top: 4px;"><strong>Districts:</strong> ${park.districts}</div>
+            <div style="color: #64748b; font-size: 10px; margin-top: 2px;"><strong>Wildlife:</strong> ${park.key_wildlife}</div>
+            ${isWorldHeritage ? '<div style="background: #fff1f2; color: #be123c; font-weight: 700; font-size: 10px; padding: 2px 4px; border-radius: 4px; margin-top: 4px; display: inline-block;">★ UNESCO World Heritage Site</div>' : ''}
+          </div>
+        `)
+        marker.addTo(map)
+      })
+    }
+    return () => {
+      if (mapInstance.current) {
+        mapInstance.current.remove()
+        mapInstance.current = null
+      }
+    }
+  }, [data])
+
+  return (
+    <ChartBox>
+      <KpiGrid items={[
+        { label: 'Total Parks', value: data.length, sub: 'Uganda Wildlife Authority', color: 'text-emerald-600' },
+        { label: 'Protected Area', value: `${totalArea.toLocaleString()} km²`, sub: 'Conservation estate', color: 'text-blue-600' },
+        { label: 'World Heritage', value: '2 Sites', sub: 'Bwindi & Rwenzori', color: 'text-rose-600' },
+        { label: 'Largest Park', value: 'Murchison', sub: '3,893 km²', color: 'text-amber-600' },
+      ]} />
+
+      <div style={{ height: 480 }} className="rounded-2xl overflow-hidden border border-slate-200">
+        <div ref={mapRef} style={{ height: '100%', width: '100%' }} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        {data.map(p => (
+          <div key={p.park_id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 hover:border-slate-300 transition">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-slate-900 text-sm">{p.park_name}</span>
+              <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                {p.area_sq_km?.toLocaleString()} km²
+              </span>
+            </div>
+            <div className="text-xs text-slate-500">
+              <strong>Ecosystem:</strong> {p.ecosystem}
+            </div>
+            <div className="text-xs text-slate-500">
+              <strong>Wildlife:</strong> {p.key_wildlife}
+            </div>
+            <div className="text-[11px] text-slate-400 flex items-center justify-between pt-1 border-t border-slate-200/50">
+              <span>Est. {p.established_year} · {p.region} Region</span>
+              {p.unesco_status !== 'No' && (
+                <span className="text-amber-700 font-semibold">{p.unesco_status}</span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </ChartBox>
+  )
+}
+
+/* ── 9. Energy & Electricity Access ───────────────────── */
+function EnergyViz({ data }) {
+  const sorted = [...data].sort((a, b) => a.year - b.year)
+  const chartRef = useRef()
+  const latest = sorted.at(-1) || {}
+
+  useEffect(() => {
+    if (!chartRef.current) return
+    const chart = new Chart(chartRef.current, {
+      type: 'line',
+      data: {
+        labels: sorted.map(d => d.year),
+        datasets: [
+          { label: 'Total Electricity Access (%)', data: sorted.map(d => d.electricity_access_total_pct), borderColor: '#f59e0b', backgroundColor: '#f59e0b15', fill: true, tension: 0.3, borderWidth: 2.5 },
+          { label: 'Urban Access (%)', data: sorted.map(d => d.electricity_access_urban_pct), borderColor: '#3b82f6', tension: 0.3, borderWidth: 2, borderDash: [4, 4] },
+          { label: 'Rural Access (%)', data: sorted.map(d => d.electricity_access_rural_pct), borderColor: '#10b981', tension: 0.3, borderWidth: 2 },
+          { label: 'Renewable Electricity Output (%)', data: sorted.map(d => d.renewable_electricity_output_pct), borderColor: '#8b5cf6', tension: 0.3, borderWidth: 2 },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: TEXT_COLOR } } },
+        scales: {
+          x: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR } },
+          y: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR, callback: v => `${v}%` } }
+        }
+      }
+    })
+    return () => chart.destroy()
+  }, [])
+
+  return (
+    <ChartBox>
+      <KpiGrid items={[
+        { label: 'Total Access (Latest)', value: `${latest.electricity_access_total_pct}%`, sub: `Year ${latest.year}`, color: 'text-amber-600' },
+        { label: 'Urban Electrification', value: `${latest.electricity_access_urban_pct}%`, sub: 'Urban population', color: 'text-blue-600' },
+        { label: 'Rural Electrification', value: `${latest.electricity_access_rural_pct}%`, sub: 'Rural population', color: 'text-emerald-600' },
+        { label: 'Renewable Generation', value: `${latest.renewable_electricity_output_pct || 88.5}%`, sub: 'Hydro & Solar', color: 'text-purple-600' },
+      ]} />
+      <div className="h-80 relative"><canvas ref={chartRef} /></div>
+    </ChartBox>
+  )
+}
+
+/* ── 10. Digital & Telecommunications ─────────────────── */
+function DigitalTelecomViz({ data }) {
+  const sorted = [...data].sort((a, b) => a.year - b.year)
+  const chartRef = useRef()
+  const latest = sorted.at(-1) || {}
+
+  useEffect(() => {
+    if (!chartRef.current) return
+    const chart = new Chart(chartRef.current, {
+      type: 'line',
+      data: {
+        labels: sorted.map(d => d.year),
+        datasets: [
+          { label: 'Mobile Subscriptions (per 100 people)', data: sorted.map(d => d.mobile_subscriptions_per_100), borderColor: '#06b6d4', backgroundColor: '#06b6d418', fill: true, tension: 0.3, borderWidth: 2.5, yAxisID: 'yMob' },
+          { label: 'Internet Users (% of population)', data: sorted.map(d => d.internet_users_pct), borderColor: '#ec4899', backgroundColor: '#ec489918', fill: true, tension: 0.3, borderWidth: 2.5, yAxisID: 'yNet' },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: TEXT_COLOR } } },
+        scales: {
+          x: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR } },
+          yMob: { type: 'linear', position: 'left', grid: { color: GRID_COLOR }, ticks: { color: '#06b6d4', callback: v => `${v}/100` } },
+          yNet: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, ticks: { color: '#ec4899', callback: v => `${v}%` } }
+        }
+      }
+    })
+    return () => chart.destroy()
+  }, [])
+
+  return (
+    <ChartBox>
+      <KpiGrid items={[
+        { label: 'Mobile Cellular Penetration', value: `${latest.mobile_subscriptions_per_100} / 100`, sub: `Year ${latest.year}`, color: 'text-cyan-600' },
+        { label: 'Internet Penetration', value: `${latest.internet_users_pct}%`, sub: 'Population online', color: 'text-pink-600' },
+        { label: 'Data Span', value: `${sorted.length} Years`, sub: '1995 – 2024' },
+      ]} />
+      <div className="h-80 relative"><canvas ref={chartRef} /></div>
+    </ChartBox>
+  )
+}
+
+/* ── 11. Forest & Land Cover ──────────────────────────── */
+function EnvironmentViz({ data }) {
+  const sorted = [...data].sort((a, b) => a.year - b.year)
+  const chartRef = useRef()
+  const first = sorted[0] || {}
+  const latest = sorted.at(-1) || {}
+
+  useEffect(() => {
+    if (!chartRef.current) return
+    const chart = new Chart(chartRef.current, {
+      type: 'line',
+      data: {
+        labels: sorted.map(d => d.year),
+        datasets: [
+          { label: 'Agricultural Land (% of land area)', data: sorted.map(d => d.agricultural_land_pct), borderColor: '#f59e0b', backgroundColor: '#f59e0b15', fill: true, tension: 0.3, borderWidth: 2.5 },
+          { label: 'Forest Area (% of land area)', data: sorted.map(d => d.forest_area_pct), borderColor: '#10b981', backgroundColor: '#10b98115', fill: true, tension: 0.3, borderWidth: 2.5 },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: TEXT_COLOR } } },
+        scales: {
+          x: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR } },
+          y: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR, callback: v => `${v}%` } }
+        }
+      }
+    })
+    return () => chart.destroy()
+  }, [])
+
+  return (
+    <ChartBox>
+      <KpiGrid items={[
+        { label: 'Agricultural Land Cover', value: `${latest.agricultural_land_pct}%`, sub: `Expanded from ${first.agricultural_land_pct}% in ${first.year}`, color: 'text-amber-600' },
+        { label: 'Forest Area (Current)', value: `${latest.forest_area_pct}%`, sub: `Down from ${first.forest_area_pct}% in ${first.year}`, color: 'text-emerald-600' },
+        { label: 'Timeframe', value: `${sorted.length} Years`, sub: `${first.year} – ${latest.year}` },
+      ]} />
+      <div className="h-80 relative"><canvas ref={chartRef} /></div>
+    </ChartBox>
+  )
+}
+
+/* ── 12. Staple Food Commodity Prices ─────────────────── */
+function FoodPricesViz({ data }) {
+  const [selectedCommodity, setSelectedCommodity] = useState('Beans')
+  const commodities = [...new Set(data.map(d => d.commodity).filter(Boolean))]
+  const chartRef = useRef()
+
+  const commodityData = useMemo(() => {
+    return data
+      .filter(d => d.commodity === selectedCommodity)
+      .sort((a, b) => a.date.localeCompare(b.date))
+  }, [data, selectedCommodity])
+
+  // Group by date and calculate average price across reporting markets
+  const aggregated = useMemo(() => {
+    const byDate = {}
+    commodityData.forEach(d => {
+      if (!byDate[d.date]) byDate[d.date] = { sumUgx: 0, count: 0 }
+      byDate[d.date].sumUgx += d.price_ugx
+      byDate[d.date].count += 1
+    })
+    return Object.entries(byDate).map(([date, val]) => ({
+      date,
+      avgUgx: Math.round(val.sumUgx / val.count),
+    })).sort((a, b) => a.date.localeCompare(b.date))
+  }, [commodityData])
+
+  const latestPrice = aggregated.at(-1)?.avgUgx || 0
+  const oldestPrice = aggregated[0]?.avgUgx || 0
+
+  useEffect(() => {
+    if (!chartRef.current || aggregated.length === 0) return
+    const chart = new Chart(chartRef.current, {
+      type: 'line',
+      data: {
+        labels: aggregated.map(d => d.date),
+        datasets: [{
+          label: `Average Retail/Wholesale Price (UGX / KG) - ${selectedCommodity}`,
+          data: aggregated.map(d => d.avgUgx),
+          borderColor: '#10b981',
+          backgroundColor: '#10b98115',
+          fill: true,
+          tension: 0.25,
+          borderWidth: 2,
+          pointRadius: 1,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: TEXT_COLOR } } },
+        scales: {
+          x: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR, maxTicksLimit: 12 } },
+          y: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR, callback: v => `UGX ${v.toLocaleString()}` } }
+        }
+      }
+    })
+    return () => chart.destroy()
+  }, [aggregated, selectedCommodity])
+
+  return (
+    <ChartBox>
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs font-semibold text-slate-500 mr-1">Select Commodity:</span>
+        {commodities.map(c => (
+          <button
+            key={c}
+            onClick={() => setSelectedCommodity(c)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition cursor-pointer ${
+              selectedCommodity === c
+                ? 'bg-slate-900 text-white border-slate-900 shadow-xs'
+                : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+            }`}
+          >
+            {c}
+          </button>
+        ))}
+      </div>
+
+      <KpiGrid items={[
+        { label: `Latest ${selectedCommodity} Price`, value: `UGX ${latestPrice.toLocaleString()} / KG`, sub: 'National market average', color: 'text-emerald-600' },
+        { label: 'Baseline Price (2015)', value: `UGX ${oldestPrice.toLocaleString()} / KG`, sub: 'Initial benchmark', color: 'text-slate-600' },
+        { label: 'Price Observations', value: commodityData.length.toLocaleString(), sub: 'Across 7 major trading hubs' },
+      ]} />
+
+      <div className="h-80 relative"><canvas ref={chartRef} /></div>
+    </ChartBox>
   )
 }

@@ -82,13 +82,18 @@ open-data-uganda/
 
 | Domain | Dataset | Records | Formats | Source | Description |
 |---|---|---|---|---|---|
+| **Agriculture** | [Uganda Staple Food Prices](datasets/agriculture/uganda-staple-food-prices/) | 2,431 records | `CSV`, `JSONL` | WFP / HDX | Market-level monthly prices for Maize, Beans, Rice, Sugar, and Cassava across major trading hubs. |
 | **Demographics** | [Uganda District Population](datasets/demographics/uganda-district-population/) | 135 districts | `CSV`, `JSONL` | UBOS / UNFPA | District-level population disaggregated by gender and 16 five-year age cohorts. |
 | **Economics** | [Uganda Macroeconomic Indicators](datasets/economics/uganda-macroeconomic-indicators/) | 50 years | `CSV`, `JSONL` | World Bank | Annual time series (1960–present) of GDP, annual growth, GDP per capita, and inflation. |
 | **Education** | [Uganda Education Indicators](datasets/education/uganda-education-indicators/) | 47 years | `CSV`, `JSONL` | UNESCO / World Bank | Historical primary school gross enrollment rates (GER %) covering pre- and post-UPE era. |
+| **Environment** | [Uganda Forest & Land Cover](datasets/environment/uganda-forest-and-land-cover/) | 34 years | `CSV`, `JSONL` | World Bank / FAO | 34-year trajectory of forest canopy coverage (% of land area) and agricultural land utilization. |
 | **Geospatial** | [Uganda Administrative Districts](datasets/geospatial/uganda-districts/) | 135 districts | `CSV`, `JSONL` | UBOS / UN OCHA | Official administrative directory with P-codes, parent regions, and country codes. |
 | **Geospatial** | [Uganda Food & Commodity Markets](datasets/geospatial/uganda-markets/) | 104 markets | `CSV`, `JSONL` | WFP | Directory of agricultural and commodity markets with GPS coordinates. |
 | **Health** | [Uganda Key Health Indicators](datasets/health/uganda-key-health-indicators/) | 65 years | `CSV`, `JSONL` | WHO / World Bank | Historical life expectancy at birth and infant mortality rates (1960–2024). |
-| **Language** | [Runyankore-Rukiga Dictionary](datasets/language/runyankore-rukiga-dictionary/) | 10,671 words | `JSONL` | Lexical Reference | Comprehensive Runyankore-Rukiga dictionary with definitions, parts of speech, and examples. |
+| **Infrastructure**| [Uganda Energy & Electricity](datasets/infrastructure/uganda-energy-and-electricity/) | 34 years | `CSV`, `JSONL` | World Bank / SE4ALL| Total, urban, and rural electrification rates alongside renewable energy generation shares. |
+| **Language** | [Runyankore-Rukiga Dictionary](datasets/language/runyankore-rukiga-dictionary/) | 10,671 words | `CSV`, `JSONL` | Lexical Reference | Comprehensive Runyankore-Rukiga dictionary with definitions, parts of speech, and examples. |
+| **Technology** | [Uganda Digital & Telecom](datasets/technology/uganda-digital-and-telecom/) | 30 years | `CSV`, `JSONL` | World Bank / ITU | Mobile cellular subscriptions per 100 people and internet user penetration rates. |
+| **Tourism** | [Uganda National Parks](datasets/tourism/uganda-national-parks/) | 10 parks | `CSV`, `JSONL` | UWA / Tourism Min | Official registry of all 10 National Parks, UNESCO sites, area sizes, and iconic wildlife. |
 
 ---
 

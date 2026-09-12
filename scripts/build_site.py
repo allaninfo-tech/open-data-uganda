@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Build script for the Open Data Uganda web portal.
-Syncs and packages datasets into site/data/ for Cloudflare Pages deployment.
+Syncs and packages datasets into site/data/ and web/public/data/ for Cloudflare Pages deployment.
 """
 
 import json
@@ -11,14 +11,15 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATASETS_DIR = BASE_DIR / "datasets"
-SITE_DIR = BASE_DIR / "site"
-SITE_DATA_DIR = SITE_DIR / "data"
+SITE_DATA_DIR = BASE_DIR / "site" / "data"
+WEB_DATA_DIR = BASE_DIR / "web" / "public" / "data"
 
 def ensure_dir(path: Path):
     path.mkdir(parents=True, exist_ok=True)
 
 def build_catalog_and_data():
     ensure_dir(SITE_DATA_DIR)
+    ensure_dir(WEB_DATA_DIR)
     
     catalog = [
         {
@@ -71,7 +72,20 @@ def build_catalog_and_data():
             "csv_file": "data/uganda-markets.csv",
             "json_file": "data/uganda-markets.json",
             "type": "map_points",
-            "icon": "shopping-bag"
+            "icon": "store"
+        },
+        {
+            "id": "uganda-staple-food-prices",
+            "title": "Uganda Staple Food Commodity Prices",
+            "domain": "Agriculture",
+            "source": "UN World Food Programme (WFP) / HDX",
+            "license": "CC BY-IGO 3.0",
+            "timeframe": "2015–2024",
+            "description": "Market-level retail and wholesale food price records tracking staple commodities (Maize, Beans, Rice, Cassava flour, Sugar) in UGX and USD across key trading hubs (Owino Kampala, Busia, Gulu, Mbarara, Arua, Jinja).",
+            "csv_file": "data/uganda-staple-food-prices.csv",
+            "json_file": "data/uganda-staple-food-prices.json",
+            "type": "table",
+            "icon": "wheat"
         },
         {
             "id": "uganda-key-health-indicators",
@@ -100,6 +114,58 @@ def build_catalog_and_data():
             "icon": "graduation-cap"
         },
         {
+            "id": "uganda-energy-and-electricity",
+            "title": "Uganda Energy & Electricity Access Indicators",
+            "domain": "Infrastructure",
+            "source": "World Bank Open Data / SE4ALL",
+            "license": "CC-BY 4.0",
+            "timeframe": "1991–2024",
+            "description": "Historical annual trajectory of electricity electrification rates across Uganda, disaggregated by national total, urban centers, and rural communities, alongside renewable energy shares.",
+            "csv_file": "data/uganda-energy-and-electricity.csv",
+            "json_file": "data/uganda-energy-and-electricity.json",
+            "type": "timeseries",
+            "icon": "zap"
+        },
+        {
+            "id": "uganda-digital-and-telecom",
+            "title": "Uganda Digital & Telecommunications Indicators",
+            "domain": "Technology",
+            "source": "World Bank Open Data / ITU",
+            "license": "CC-BY 4.0",
+            "timeframe": "1995–2024",
+            "description": "30-year annual time series tracking mobile cellular phone subscriptions per 100 people, internet penetration (% of population), and fixed broadband subscriptions.",
+            "csv_file": "data/uganda-digital-and-telecom.csv",
+            "json_file": "data/uganda-digital-and-telecom.json",
+            "type": "timeseries",
+            "icon": "smartphone"
+        },
+        {
+            "id": "uganda-national-parks",
+            "title": "Uganda National Parks & Wildlife Reserves",
+            "domain": "Tourism",
+            "source": "Uganda Wildlife Authority (UWA) / Ministry of Tourism",
+            "license": "CC-BY 4.0",
+            "timeframe": "Comprehensive",
+            "description": "Official geospatial registry of all 10 National Parks in Uganda, detailing established years, area size in sq km, UNESCO World Heritage and Biosphere status, geographic coordinates, and key iconic wildlife species.",
+            "csv_file": "data/uganda-national-parks.csv",
+            "json_file": "data/uganda-national-parks.json",
+            "type": "map_points",
+            "icon": "trees"
+        },
+        {
+            "id": "uganda-forest-and-land-cover",
+            "title": "Uganda Forest & Land Cover Indicators",
+            "domain": "Environment",
+            "source": "World Bank Open Data / FAO",
+            "license": "CC-BY 4.0",
+            "timeframe": "1990–2023",
+            "description": "Historical time series tracking changes in forest canopy cover (% of land area) and agricultural land utilization in Uganda over three decades.",
+            "csv_file": "data/uganda-forest-and-land-cover.csv",
+            "json_file": "data/uganda-forest-and-land-cover.json",
+            "type": "timeseries",
+            "icon": "leaf"
+        },
+        {
             "id": "runyankore-rukiga-dictionary",
             "title": "Runyankore-Rukiga Dictionary",
             "domain": "Language",
@@ -114,14 +180,19 @@ def build_catalog_and_data():
         }
     ]
 
-    # Process each dataset
+    # Process all tabular and timeseries datasets
     dataset_mappings = [
         ("demographics/uganda-district-population", "uganda-district-population"),
         ("economics/uganda-macroeconomic-indicators", "uganda-macroeconomic-indicators"),
         ("geospatial/uganda-districts", "uganda-districts"),
         ("geospatial/uganda-markets", "uganda-markets"),
+        ("agriculture/uganda-staple-food-prices", "uganda-staple-food-prices"),
         ("health/uganda-key-health-indicators", "uganda-key-health-indicators"),
         ("education/uganda-education-indicators", "uganda-education-indicators"),
+        ("infrastructure/uganda-energy-and-electricity", "uganda-energy-and-electricity"),
+        ("technology/uganda-digital-and-telecom", "uganda-digital-and-telecom"),
+        ("tourism/uganda-national-parks", "uganda-national-parks"),
+        ("environment/uganda-forest-and-land-cover", "uganda-forest-and-land-cover"),
     ]
 
     for rel_path, target_name in dataset_mappings:
@@ -129,11 +200,11 @@ def build_catalog_and_data():
         src_csv = src_dir / "data.csv"
         src_jsonl = src_dir / "data.jsonl"
         
-        # Copy CSV for direct download
-        dest_csv = SITE_DATA_DIR / f"{target_name}.csv"
-        shutil.copy2(src_csv, dest_csv)
+        # Copy CSV to both output destinations
+        shutil.copy2(src_csv, SITE_DATA_DIR / f"{target_name}.csv")
+        shutil.copy2(src_csv, WEB_DATA_DIR / f"{target_name}.csv")
         
-        # Convert to compact JSON array for instant browser loading
+        # Parse JSONL to compact JSON array
         records = []
         with open(src_jsonl, "r", encoding="utf-8") as f:
             for line in f:
@@ -141,9 +212,10 @@ def build_catalog_and_data():
                 if s:
                     records.append(json.loads(s))
         
-        dest_json = SITE_DATA_DIR / f"{target_name}.json"
-        with open(dest_json, "w", encoding="utf-8") as f:
-            json.dump(records, f, ensure_ascii=False)
+        # Write JSON to both output destinations
+        for out_dir in [SITE_DATA_DIR, WEB_DATA_DIR]:
+            with open(out_dir / f"{target_name}.json", "w", encoding="utf-8") as f:
+                json.dump(records, f, ensure_ascii=False)
             
         print(f"Bundled {target_name}: {len(records)} records")
 
@@ -155,7 +227,6 @@ def build_catalog_and_data():
             s = line.strip()
             if s:
                 item = json.loads(s)
-                # Keep essential search fields for high performance
                 dict_records.append({
                     "headword": item.get("headword", ""),
                     "pos": item.get("pos"),
@@ -166,26 +237,26 @@ def build_catalog_and_data():
                     "section": item.get("letter_section")
                 })
 
-    dict_dest_json = SITE_DATA_DIR / "runyankore-rukiga-dictionary.json"
-    with open(dict_dest_json, "w", encoding="utf-8") as f:
-        json.dump(dict_records, f, ensure_ascii=False)
+    for out_dir in [SITE_DATA_DIR, WEB_DATA_DIR]:
+        with open(out_dir / "runyankore-rukiga-dictionary.json", "w", encoding="utf-8") as f:
+            json.dump(dict_records, f, ensure_ascii=False)
+            
+        with open(out_dir / "runyankore-rukiga-dictionary.csv", "w", newline="", encoding="utf-8") as f:
+            fields = ["headword", "pos", "definition", "clarifier", "example_runyankore", "example_english", "section"]
+            writer = csv.DictWriter(f, fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(dict_records)
+            
     print(f"Bundled dictionary: {len(dict_records)} words")
 
-    # Also export dictionary as CSV for direct download
-    dict_dest_csv = SITE_DATA_DIR / "runyankore-rukiga-dictionary.csv"
-    with open(dict_dest_csv, "w", newline="", encoding="utf-8") as f:
-        fields = ["headword", "pos", "definition", "clarifier", "example_runyankore", "example_english", "section"]
-        writer = csv.DictWriter(f, fieldnames=fields)
-        writer.writeheader()
-        writer.writerows(dict_records)
-
-    # Save catalog.json
-    catalog_dest = SITE_DATA_DIR / "catalog.json"
-    with open(catalog_dest, "w", encoding="utf-8") as f:
-        json.dump(catalog, f, indent=2, ensure_ascii=False)
-    print(f"Catalog saved to {catalog_dest}")
+    # Save catalog.json to both directories
+    for out_dir in [SITE_DATA_DIR, WEB_DATA_DIR]:
+        catalog_dest = out_dir / "catalog.json"
+        with open(catalog_dest, "w", encoding="utf-8") as f:
+            json.dump(catalog, f, indent=2, ensure_ascii=False)
+        print(f"Catalog saved to {catalog_dest}")
 
 if __name__ == "__main__":
-    print("Building web portal data assets...")
+    print("Building web portal data assets for 12 datasets...")
     build_catalog_and_data()
-    print("Web assets ready!")
+    print("All web assets successfully generated!")

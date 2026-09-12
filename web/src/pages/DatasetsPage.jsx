@@ -17,7 +17,12 @@ import {
   ShieldCheck,
   Filter,
   SlidersHorizontal,
-  X
+  X,
+  Zap,
+  Smartphone,
+  Trees,
+  Leaf,
+  Wheat
 } from 'lucide-react'
 import { useCatalog } from '../hooks/useData'
 
@@ -31,6 +36,31 @@ const DOMAIN_CONFIG = {
     badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     icon: TrendingUp,
     color: '#059669',
+  },
+  Agriculture: {
+    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    icon: Wheat,
+    color: '#16a34a',
+  },
+  Infrastructure: {
+    badge: 'bg-amber-50 text-amber-700 border-amber-200',
+    icon: Zap,
+    color: '#d97706',
+  },
+  Tourism: {
+    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    icon: Trees,
+    color: '#059669',
+  },
+  Technology: {
+    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200',
+    icon: Smartphone,
+    color: '#0891b2',
+  },
+  Environment: {
+    badge: 'bg-lime-50 text-lime-700 border-lime-200',
+    icon: Leaf,
+    color: '#65a30d',
   },
   Geospatial: {
     badge: 'bg-amber-50 text-amber-700 border-amber-200',
