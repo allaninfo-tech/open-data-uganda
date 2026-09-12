@@ -1,5 +1,6 @@
-import { Outlet, useNavigate } from 'react-router-dom'
-import { Github, Star, ExternalLink, ShieldCheck, FileText, Database } from 'lucide-react'
+import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom'
+import { Github, Star, Sparkles, ExternalLink } from 'lucide-react'
+import TopLoader from './TopLoader'
 
 export default function Layout() {
   const navigate = useNavigate()
@@ -7,13 +8,16 @@ export default function Layout() {
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans antialiased selection:bg-amber-100 selection:text-amber-900">
       
+      {/* YouTube-style Horizontal Progress Loader */}
+      <TopLoader />
+
       {/* Top Notification / Authority Bar */}
       <div className="bg-slate-900 text-slate-300 text-[11px] sm:text-xs py-2 px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span>🇺🇬</span>
             <span className="font-semibold text-white">Open Data Uganda:</span>
-            <span className="hidden sm:inline text-slate-400">An independent, public-interest open archive for research, journalism, and development.</span>
+            <span className="hidden sm:inline text-slate-400">An independent, public-interest open archive for research, journalism, and civic development.</span>
           </div>
           <div className="flex items-center gap-4 text-slate-400">
             <span className="hidden md:inline">Open License: CC-BY 4.0</span>
@@ -31,15 +35,15 @@ export default function Layout() {
       </div>
 
       {/* Main Sticky Navigation */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
           
           {/* Brand Logo */}
-          <button
-            onClick={() => navigate('/')}
+          <Link
+            to="/"
             className="flex items-center gap-3 cursor-pointer text-left focus:outline-none"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-red-600 flex items-center justify-center text-lg shadow-sm shadow-amber-500/20">
+            <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-lg shadow-xs">
               🇺🇬
             </div>
             <div>
@@ -50,45 +54,71 @@ export default function Layout() {
                 Official Public Archive
               </div>
             </div>
-          </button>
+          </Link>
 
-          {/* Nav Links */}
-          <nav className="hidden md:flex items-center gap-8 text-xs sm:text-sm font-semibold text-slate-600">
-            <button
-              onClick={() => {
-                navigate('/')
-                document.getElementById('datasets')?.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="hover:text-slate-900 transition cursor-pointer"
+          {/* Route Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1 text-xs sm:text-sm font-semibold">
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-lg transition ${
+                  isActive
+                    ? 'text-slate-950 bg-slate-100 font-bold'
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                }`
+              }
             >
-              All Datasets (7)
-            </button>
-            <button
-              onClick={() => {
-                navigate('/')
-                document.getElementById('developer-access')?.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="hover:text-slate-900 transition cursor-pointer"
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/datasets"
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-lg transition ${
+                  isActive
+                    ? 'text-slate-950 bg-slate-100 font-bold'
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                }`
+              }
             >
-              API &amp; Python
-            </button>
-            <a
-              href="https://github.com/allaninfo-tech/open-data-uganda/blob/main/CONTRIBUTING.md"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-slate-900 transition"
+              Datasets (7)
+            </NavLink>
+
+            <NavLink
+              to="/api"
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-lg transition ${
+                  isActive
+                    ? 'text-slate-950 bg-slate-100 font-bold'
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                }`
+              }
+            >
+              API &amp; Docs
+            </NavLink>
+
+            <NavLink
+              to="/contribute"
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-lg transition ${
+                  isActive
+                    ? 'text-slate-950 bg-slate-100 font-bold'
+                    : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                }`
+              }
             >
               Contribute
-            </a>
+            </NavLink>
           </nav>
 
-          {/* Right Action */}
+          {/* Right Action Button */}
           <div className="flex items-center gap-3">
             <a
               href="https://github.com/allaninfo-tech/open-data-uganda"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-sm transition"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold shadow-xs transition"
             >
               <Github className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Star on GitHub</span>
@@ -124,26 +154,26 @@ export default function Layout() {
 
             {/* Datasets Quick Nav */}
             <div className="md:col-span-3 space-y-3 text-xs">
-              <div className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Datasets By Domain</div>
+              <div className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Pages &amp; Datasets</div>
               <div className="space-y-2">
-                <div onClick={() => navigate('/dataset/uganda-district-population')} className="hover:text-white transition cursor-pointer">👥 District Population Census</div>
-                <div onClick={() => navigate('/dataset/uganda-macroeconomic-indicators')} className="hover:text-white transition cursor-pointer">📈 Macroeconomic Indicators</div>
-                <div onClick={() => navigate('/dataset/uganda-markets')} className="hover:text-white transition cursor-pointer">🛒 WFP Food &amp; Commodity Markets</div>
-                <div onClick={() => navigate('/dataset/uganda-key-health-indicators')} className="hover:text-white transition cursor-pointer">🩺 Key Health Indicators</div>
-                <div onClick={() => navigate('/dataset/uganda-education-indicators')} className="hover:text-white transition cursor-pointer">🎓 Primary Education Stats</div>
-                <div onClick={() => navigate('/dataset/runyankore-rukiga-dictionary')} className="hover:text-white transition cursor-pointer">📖 Runyankore-Rukiga Dictionary</div>
+                <div><Link to="/datasets" className="hover:text-white transition font-medium">All Datasets Catalog</Link></div>
+                <div><Link to="/dataset/uganda-district-population" className="hover:text-white transition">👥 District Population Census</Link></div>
+                <div><Link to="/dataset/uganda-macroeconomic-indicators" className="hover:text-white transition">📈 Macroeconomic Indicators</Link></div>
+                <div><Link to="/dataset/uganda-markets" className="hover:text-white transition">🛒 Food &amp; Commodity Markets</Link></div>
+                <div><Link to="/dataset/uganda-key-health-indicators" className="hover:text-white transition">🩺 Key Health Indicators</Link></div>
+                <div><Link to="/dataset/runyankore-rukiga-dictionary" className="hover:text-white transition">📖 Runyankore-Rukiga Dictionary</Link></div>
               </div>
             </div>
 
             {/* Resources & Open Source */}
             <div className="md:col-span-4 space-y-3 text-xs">
-              <div className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Open Source &amp; Governance</div>
+              <div className="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Resources &amp; API</div>
               <div className="space-y-2">
+                <div><Link to="/api" className="hover:text-white transition font-medium">Developer API &amp; Python</Link></div>
+                <div><Link to="/contribute" className="hover:text-white transition font-medium">How to Contribute Data</Link></div>
                 <a href="https://github.com/allaninfo-tech/open-data-uganda" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition">GitHub Repository</a>
-                <a href="https://github.com/allaninfo-tech/open-data-uganda/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition">Contribution Guidelines</a>
                 <a href="https://github.com/allaninfo-tech/open-data-uganda/blob/main/CITATION.cff" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition">Citation &amp; Academic Reference</a>
                 <a href="https://github.com/allaninfo-tech/open-data-uganda/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition">Security &amp; PII Safeguards</a>
-                <a href="https://github.com/allaninfo-tech/open-data-uganda/blob/main/CODE_OF_CONDUCT.md" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition">Contributor Code of Conduct</a>
               </div>
             </div>
 
