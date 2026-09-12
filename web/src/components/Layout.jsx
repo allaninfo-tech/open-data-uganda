@@ -82,7 +82,7 @@ export default function Layout() {
                 }`
               }
             >
-              Datasets (12)
+              Datasets (14)
             </NavLink>
 
             <NavLink

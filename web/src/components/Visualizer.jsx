@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Chart, registerables } from 'chart.js'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -21,6 +21,8 @@ export default function Visualizer({ dataset, data }) {
     case 'uganda-digital-and-telecom':      return <DigitalTelecomViz data={data} />
     case 'uganda-forest-and-land-cover':    return <EnvironmentViz data={data} />
     case 'uganda-staple-food-prices':       return <FoodPricesViz data={data} />
+    case 'uganda-multilingual-nlp-parallel-corpus': return <NlpCorpusViz data={data} />
+    case 'uganda-pm25-air-pollutant-emissions':     return <Pm25EmissionsViz data={data} />
     default: return <p className="text-slate-400 text-center py-12">No visualizer for this dataset.</p>
   }
 }
@@ -862,6 +864,202 @@ function FoodPricesViz({ data }) {
       ]} />
 
       <div className="h-80 relative"><canvas ref={chartRef} /></div>
+    </ChartBox>
+  )
+}
+
+/* ── 13. Multilingual Parallel NLP Benchmark (SALT) ───── */
+function NlpCorpusViz({ data }) {
+  const [search, setSearch] = useState('')
+  const [splitFilter, setSplitFilter] = useState('all')
+  const [activeLang, setActiveLang] = useState('luganda')
+  const [page, setPage] = useState(1)
+  const pageSize = 10
+
+  const filtered = useMemo(() => {
+    const s = search.toLowerCase().trim()
+    return data.filter(d => {
+      const matchSplit = splitFilter === 'all' || d.split === splitFilter
+      const matchSearch = !s ||
+        d.english?.toLowerCase().includes(s) ||
+        d.luganda?.toLowerCase().includes(s) ||
+        d.runyankore_rukiga?.toLowerCase().includes(s) ||
+        d.acholi?.toLowerCase().includes(s) ||
+        d.ateso?.toLowerCase().includes(s) ||
+        d.lugbara?.toLowerCase().includes(s)
+      return matchSplit && matchSearch
+    })
+  }, [data, search, splitFilter])
+
+  const totalPages = Math.ceil(filtered.length / pageSize)
+  const safePage = Math.min(page, Math.max(1, totalPages))
+  const pageItems = filtered.slice((safePage - 1) * pageSize, safePage * pageSize)
+
+  const LANG_NAMES = {
+    luganda: 'Luganda (Central)',
+    runyankore_rukiga: 'Runyankore-Rukiga (Western)',
+    acholi: 'Acholi (Northern)',
+    ateso: 'Ateso (Eastern)',
+    lugbara: 'Lugbara (West Nile)',
+  }
+
+  return (
+    <ChartBox>
+      <KpiGrid items={[
+        { label: 'Parallel Sentences', value: data.length.toLocaleString(), sub: 'Multi-way aligned', color: 'text-indigo-600' },
+        { label: 'Supported Languages', value: '6 Languages', sub: 'English + 5 Ugandan', color: 'text-blue-600' },
+        { label: 'Translation Pairs', value: `${(data.length * 6).toLocaleString()}`, sub: 'Complete cross-lingual matrix', color: 'text-emerald-600' },
+        { label: 'ML Purpose', value: 'NLP / NMT', sub: 'Sunbird AI Benchmark', color: 'text-amber-600' },
+      ]} />
+
+      {/* Controls Bar */}
+      <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <input
+            type="text"
+            value={search}
+            onChange={e => { setSearch(e.target.value); setPage(1) }}
+            placeholder="Search words or phrases across all 6 languages..."
+            className="w-full sm:max-w-md px-4 py-2 rounded-xl border border-slate-200 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"
+          />
+
+          <div className="flex items-center gap-2 text-xs font-semibold">
+            <span className="text-slate-400">Split:</span>
+            {['all', 'test', 'dev'].map(sp => (
+              <button
+                key={sp}
+                onClick={() => { setSplitFilter(sp); setPage(1) }}
+                className={`px-3 py-1 rounded-lg uppercase text-[10px] transition cursor-pointer ${
+                  splitFilter === sp
+                    ? 'bg-slate-900 text-white'
+                    : 'bg-white text-slate-600 border border-slate-200'
+                }`}
+              >
+                {sp}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Primary Target Language Selector */}
+        <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-200/60 text-xs">
+          <span className="text-slate-500 font-semibold mr-1">Primary Comparison:</span>
+          {Object.entries(LANG_NAMES).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setActiveLang(key)}
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                activeLang === key
+                  ? 'bg-amber-500 text-slate-950 font-bold'
+                  : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Pagination & Count */}
+      <div className="flex items-center justify-between text-xs text-slate-500">
+        <span>Showing {filtered.length} sentences</span>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={safePage <= 1}
+            className="px-2.5 py-1 rounded border border-slate-200 font-semibold hover:bg-slate-50 disabled:opacity-30"
+          >
+            Prev
+          </button>
+          <span className="font-bold text-slate-700">Page {safePage} of {totalPages || 1}</span>
+          <button
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            disabled={safePage >= totalPages}
+            className="px-2.5 py-1 rounded border border-slate-200 font-semibold hover:bg-slate-50 disabled:opacity-30"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
+      {/* Parallel Sentence Cards */}
+      <div className="space-y-3">
+        {pageItems.map(item => (
+          <div key={item.id} className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs space-y-2.5 hover:border-slate-300 transition">
+            <div className="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-100 pb-1.5">
+              <span className="font-mono font-semibold text-slate-500">{item.id}</span>
+              <span className="uppercase text-[10px] px-2 py-0.5 rounded bg-slate-100 font-bold text-slate-600">{item.split} split</span>
+            </div>
+
+            {/* English Source */}
+            <div className="space-y-0.5">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">English:</div>
+              <div className="text-xs sm:text-sm font-medium text-slate-900">{item.english}</div>
+            </div>
+
+            {/* Selected Ugandan Language Translation */}
+            <div className="space-y-0.5 p-3 rounded-xl bg-amber-50/60 border border-amber-200/60">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-amber-700">{LANG_NAMES[activeLang]}:</div>
+              <div className="text-xs sm:text-sm font-semibold text-amber-950">{item[activeLang]}</div>
+            </div>
+
+            {/* Other Languages Accordion / Pills */}
+            <div className="pt-1.5 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              {Object.entries(LANG_NAMES).filter(([k]) => k !== activeLang).map(([k, label]) => (
+                <div key={k} className="p-2 rounded-lg bg-slate-50 border border-slate-100 space-y-0.5">
+                  <div className="text-[9px] font-bold text-slate-400 uppercase">{label.split(' ')[0]}:</div>
+                  <div className="text-slate-700 text-[11px] truncate">{item[k]}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </ChartBox>
+  )
+}
+
+/* ── 14. Fine Particulate Matter (PM2.5) Emissions ─────── */
+function Pm25EmissionsViz({ data }) {
+  const chartRef = useRef()
+  const top12 = [...data].sort((a, b) => b.emissions_quantity_tonnes - a.emissions_quantity_tonnes).slice(0, 12)
+  const totalEmissions = data.reduce((s, d) => s + (d.emissions_quantity_tonnes || 0), 0)
+
+  useEffect(() => {
+    if (!chartRef.current) return
+    const chart = new Chart(chartRef.current, {
+      type: 'bar',
+      data: {
+        labels: top12.map(d => d.location_name),
+        datasets: [{
+          label: 'PM2.5 Emissions (Metric Tonnes)',
+          data: top12.map(d => d.emissions_quantity_tonnes),
+          backgroundColor: 'rgba(239, 68, 68, 0.85)',
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+        plugins: { legend: { labels: { color: TEXT_COLOR } } },
+        scales: {
+          x: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR, callback: v => `${v.toLocaleString()} t` } },
+          y: { grid: { color: GRID_COLOR }, ticks: { color: TEXT_COLOR } }
+        }
+      }
+    })
+    return () => chart.destroy()
+  }, [])
+
+  return (
+    <ChartBox>
+      <KpiGrid items={[
+        { label: 'Total PM2.5 Emissions', value: `${Math.round(totalEmissions).toLocaleString()} t`, sub: 'Annual emissions measured', color: 'text-red-600' },
+        { label: 'Top Emission Hub', value: top12[0]?.location_name || 'Kampala', sub: `${Math.round(top12[0]?.emissions_quantity_tonnes || 0).toLocaleString()} t`, color: 'text-amber-600' },
+        { label: 'Tracked Locations', value: data.length.toLocaleString(), sub: 'Counties & municipalities', color: 'text-blue-600' },
+        { label: 'Pollutant', value: 'PM2.5', sub: 'Fine inhalable particles', color: 'text-purple-600' },
+      ]} />
+
+      <div className="h-96 relative"><canvas ref={chartRef} /></div>
     </ChartBox>
   )
 }

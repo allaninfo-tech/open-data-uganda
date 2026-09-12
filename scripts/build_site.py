@@ -166,6 +166,32 @@ def build_catalog_and_data():
             "icon": "leaf"
         },
         {
+            "id": "uganda-pm25-air-pollutant-emissions",
+            "title": "Uganda Fine Particulate Matter (PM2.5) Air Emissions",
+            "domain": "Environment",
+            "source": "Climate TRACE / UN OCHA HDX",
+            "license": "CC-BY 4.0",
+            "timeframe": "2024 Inventory",
+            "description": "Spatially geocoded emissions inventory of Fine Particulate Matter (PM2.5 air pollution) by county, municipality, and sector across Uganda, formatted for environmental science, spatial machine learning, and health exposure modeling.",
+            "csv_file": "data/uganda-pm25-air-pollutant-emissions.csv",
+            "json_file": "data/uganda-pm25-air-pollutant-emissions.json",
+            "type": "table",
+            "icon": "cloud-fog"
+        },
+        {
+            "id": "uganda-multilingual-nlp-parallel-corpus",
+            "title": "Uganda Multilingual Parallel NLP Benchmark (SALT)",
+            "domain": "Language",
+            "source": "Sunbird AI / Makerere University AI Lab",
+            "license": "CC-BY 4.0",
+            "timeframe": "2024 Benchmark",
+            "description": "Multi-way parallel evaluation benchmark corpus designed for Machine Learning, NLP, and Neural Machine Translation across five indigenous Ugandan languages (Luganda, Runyankore-Rukiga, Acholi, Ateso, Lugbara) paired with English.",
+            "csv_file": "data/uganda-multilingual-nlp-parallel-corpus.csv",
+            "json_file": "data/uganda-multilingual-nlp-parallel-corpus.json",
+            "type": "table",
+            "icon": "languages"
+        },
+        {
             "id": "runyankore-rukiga-dictionary",
             "title": "Runyankore-Rukiga Dictionary",
             "domain": "Language",
@@ -193,6 +219,8 @@ def build_catalog_and_data():
         ("technology/uganda-digital-and-telecom", "uganda-digital-and-telecom"),
         ("tourism/uganda-national-parks", "uganda-national-parks"),
         ("environment/uganda-forest-and-land-cover", "uganda-forest-and-land-cover"),
+        ("environment/uganda-pm25-air-pollutant-emissions", "uganda-pm25-air-pollutant-emissions"),
+        ("language/uganda-multilingual-nlp-parallel-corpus", "uganda-multilingual-nlp-parallel-corpus"),
     ]
 
     for rel_path, target_name in dataset_mappings:
@@ -257,6 +285,6 @@ def build_catalog_and_data():
         print(f"Catalog saved to {catalog_dest}")
 
 if __name__ == "__main__":
-    print("Building web portal data assets for 12 datasets...")
+    print("Building web portal data assets for 14 datasets...")
     build_catalog_and_data()
     print("All web assets successfully generated!")

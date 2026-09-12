@@ -82,12 +82,12 @@ const SECTORS = [
   },
   {
     id: 'Environment',
-    title: 'Forest & Land Cover',
-    description: '34-year historical trajectory of forest canopy area and agricultural land utilization.',
+    title: 'Environment & Climate',
+    description: '34-year forest canopy area and fine particulate matter (PM2.5) air emissions inventory.',
     icon: Leaf,
     color: '#65a30d',
     badge: 'bg-lime-50 text-lime-700 border-lime-200',
-    count: '1 Dataset · 34 Years',
+    count: '2 Datasets · Emissions & Forests',
   },
   {
     id: 'Geospatial',
@@ -108,13 +108,22 @@ const SECTORS = [
     count: '1 Dataset · 65 Years',
   },
   {
+    id: 'Education',
+    title: 'Education Indicators',
+    description: 'Primary school gross enrollment rates across pre- and post-UPE policy eras.',
+    icon: GraduationCap,
+    color: '#7c3aed',
+    badge: 'bg-purple-50 text-purple-700 border-purple-200',
+    count: '1 Dataset · 47 Years',
+  },
+  {
     id: 'Language',
-    title: 'Indigenous Languages',
-    description: 'Comprehensive bilingual dictionary of 10,671 Runyankore-Rukiga lexical entries.',
+    title: 'Indigenous Languages & NLP',
+    description: '10,671 Runyankore-Rukiga dictionary words and 1,000 multi-way aligned NLP sentence pairs.',
     icon: BookOpen,
     color: '#4f46e5',
     badge: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-    count: '1 Dataset · 10,671 Words',
+    count: '2 Datasets · 11,671 Entries',
   },
 ]
 
@@ -210,7 +219,7 @@ export default function HomePage() {
                   to="/datasets"
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold shadow-sm transition"
                 >
-                  <span>Browse All Datasets (12)</span>
+                  <span>Browse All Datasets (14)</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
@@ -402,9 +411,9 @@ export default function HomePage() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[
               {
-                value: '12',
+                value: '14',
                 label: 'Curated Datasets',
-                sub: '10 Domains of Public Records',
+                sub: '11 Domains of Public Records',
                 icon: Database,
                 color: 'text-amber-600',
               },

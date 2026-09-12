@@ -2,7 +2,7 @@
 
 [![Validate Datasets](https://github.com/allaninfo-tech/open-data-uganda/actions/workflows/validate.yml/badge.svg)](https://github.com/allaninfo-tech/open-data-uganda/actions/workflows/validate.yml)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-blue.svg)](LICENSE)
-[![Datasets](https://img.shields.io/badge/Datasets-7_available-green.svg)](#available-datasets)
+[![Datasets](https://img.shields.io/badge/Datasets-14_available-green.svg)](#available-datasets)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor_Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
@@ -78,6 +78,27 @@ open-data-uganda/
 
 ---
 
+## Dataset Summary
+
+Quick overview of datasets by domain — updated automatically as the collection grows.
+
+| Domain | Datasets | Total Records | ML-Ready |
+|---|---|---|---|
+| 🌾 Agriculture | 1 | 2,431 | ✅ Time-series regression |
+| 👥 Demographics | 1 | 135 | ✅ Clustering / spatial analysis |
+| 💰 Economics | 1 | 50 | ✅ Forecasting / regression |
+| 📚 Education | 1 | 47 | ✅ Time-series trend modeling |
+| 🌿 Environment | 2 | 1,034 | ✅ Land-cover classification, air quality ML |
+| 🗺️ Geospatial | 2 | 239 | ✅ Spatial ML / location intelligence |
+| 🏥 Health | 1 | 65 | ✅ Survival / regression analysis |
+| ⚡ Infrastructure | 1 | 34 | ✅ Access gap modeling |
+| 🗣️ Language | 2 | 11,671 | ✅ NLP / translation / NER |
+| 💻 Technology | 1 | 30 | ✅ Penetration trend forecasting |
+| 🦁 Tourism | 1 | 10 | ✅ Park classification / geo ML |
+| **Total** | **14** | **15,806** | |
+
+---
+
 ## Available Datasets
 
 | Domain | Dataset | Records | Formats | Source | Description |
@@ -87,11 +108,13 @@ open-data-uganda/
 | **Economics** | [Uganda Macroeconomic Indicators](datasets/economics/uganda-macroeconomic-indicators/) | 50 years | `CSV`, `JSONL` | World Bank | Annual time series (1960–present) of GDP, annual growth, GDP per capita, and inflation. |
 | **Education** | [Uganda Education Indicators](datasets/education/uganda-education-indicators/) | 47 years | `CSV`, `JSONL` | UNESCO / World Bank | Historical primary school gross enrollment rates (GER %) covering pre- and post-UPE era. |
 | **Environment** | [Uganda Forest & Land Cover](datasets/environment/uganda-forest-and-land-cover/) | 34 years | `CSV`, `JSONL` | World Bank / FAO | 34-year trajectory of forest canopy coverage (% of land area) and agricultural land utilization. |
+| **Environment** | [Uganda PM2.5 Air Pollutant Emissions](datasets/environment/uganda-pm25-air-pollutant-emissions/) | 1,000 records | `CSV`, `JSONL` | Climate TRACE / OCHA HDX | Sub-sector CO₂-equivalent emissions and PM2.5 air pollutant data — ready for air quality ML models. |
 | **Geospatial** | [Uganda Administrative Districts](datasets/geospatial/uganda-districts/) | 135 districts | `CSV`, `JSONL` | UBOS / UN OCHA | Official administrative directory with P-codes, parent regions, and country codes. |
 | **Geospatial** | [Uganda Food & Commodity Markets](datasets/geospatial/uganda-markets/) | 104 markets | `CSV`, `JSONL` | WFP | Directory of agricultural and commodity markets with GPS coordinates. |
 | **Health** | [Uganda Key Health Indicators](datasets/health/uganda-key-health-indicators/) | 65 years | `CSV`, `JSONL` | WHO / World Bank | Historical life expectancy at birth and infant mortality rates (1960–2024). |
 | **Infrastructure**| [Uganda Energy & Electricity](datasets/infrastructure/uganda-energy-and-electricity/) | 34 years | `CSV`, `JSONL` | World Bank / SE4ALL| Total, urban, and rural electrification rates alongside renewable energy generation shares. |
-| **Language** | [Runyankore-Rukiga Dictionary](datasets/language/runyankore-rukiga-dictionary/) | 10,671 words | `CSV`, `JSONL` | Lexical Reference | Comprehensive Runyankore-Rukiga dictionary with definitions, parts of speech, and examples. |
+| **Language** | [Runyankore-Rukiga Dictionary](datasets/language/runyankore-rukiga-dictionary/) | 10,671 words | `JSONL` | Lexical Reference | Comprehensive Runyankore-Rukiga dictionary with definitions, parts of speech, and examples. |
+| **Language** | [Uganda Multilingual NLP Parallel Corpus](datasets/language/uganda-multilingual-nlp-parallel-corpus/) | 1,000 pairs | `CSV`, `JSONL` | Sunbird AI / SALT v1.2 | Parallel sentence pairs across English, Luganda, Acholi, Ateso, and Lugbara — ideal for NLP/MT. |
 | **Technology** | [Uganda Digital & Telecom](datasets/technology/uganda-digital-and-telecom/) | 30 years | `CSV`, `JSONL` | World Bank / ITU | Mobile cellular subscriptions per 100 people and internet user penetration rates. |
 | **Tourism** | [Uganda National Parks](datasets/tourism/uganda-national-parks/) | 10 parks | `CSV`, `JSONL` | UWA / Tourism Min | Official registry of all 10 National Parks, UNESCO sites, area sizes, and iconic wildlife. |
 
